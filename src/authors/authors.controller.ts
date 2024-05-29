@@ -1,4 +1,4 @@
-import { Body, Controller,Get, NotFoundException, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller,Delete,Get, NotFoundException, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDTO } from './create-author.dto';
 import { UpdateAuthorDTO } from './update-author.dto';
@@ -32,6 +32,14 @@ export class AuthorsController {
             throw new NotFoundException('Author not found');
 
         await this.authorsService.updateById(id, authorData);
+        return{success: true};
+    }
+
+    @Delete('/:id')
+    async deleteById(@Param('id', new ParseUUIDPipe())id:string){
+        if(!(await this.authorsService.getById(id)))
+            throw new NotFoundException('Author not found');
+        await this.authorsService.deleteById(id);
         return{success: true};
     }
 }
