@@ -26,5 +26,33 @@ export class UsersService {
         });
     }
     
+    public create(email: User['email'], password){
+        return  this.prismaService.user.create({
+            data: {
+                ...userData ,password: {
+                  create: {
+                    hashedPassword: password,
+                  },
+                },
+              },
+            
+        });
+
+        public updateById(id:User['id'], email: User['email'], password){
+            return await this.prismaService.user.update({
+                where: { id: userId },
+                data: {
+                  ...userData,
+                  password: {
+                    update: {
+                      hashedPassword: password,
+                    },
+                  },
+                },
+              });
+              
+        }
+
+    }
 
 }
